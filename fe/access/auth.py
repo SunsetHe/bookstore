@@ -16,7 +16,16 @@ class Auth:
         json = {"user_id": user_id, "password": password}
         url = urljoin(self.url_prefix, "register")
         r = requests.post(url, json=json)
-        return r.status_code
+
+        # Check if registration was successful
+        if r.status_code == 200:
+            return 200
+        elif r.status_code == 400:
+            # Handle specific error (e.g., duplicate user_id)
+            return 400
+        else:
+            # Handle other errors
+            return r.status_code
 
     def password(self, user_id: str, old_password: str, new_password: str) -> int:
         json = {

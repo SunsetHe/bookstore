@@ -3,6 +3,7 @@ import sqlite3 as sqlite
 import random
 import base64
 import simplejson as json
+import mysql.connector
 
 
 class Book:
@@ -20,9 +21,9 @@ class Book:
     isbn: str
     author_intro: str
     book_intro: str
-    content: str
+    # content: str
     tags: [str]
-    pictures: [bytes]
+    # pictures: [bytes]
 
     def __init__(self):
         self.tags = []
@@ -54,7 +55,7 @@ class BookDB:
             "translator, pub_year, pages, "
             "price, currency_unit, binding, "
             "isbn, author_intro, book_intro, "
-            "content, tags, picture FROM book ORDER BY id "
+            "tags FROM book ORDER BY id "
             "LIMIT ? OFFSET ?",
             (size, start),
         )
@@ -75,19 +76,19 @@ class BookDB:
             book.isbn = row[11]
             book.author_intro = row[12]
             book.book_intro = row[13]
-            book.content = row[14]
+            # book.content = row[14]
             tags = row[15]
 
-            picture = row[16]
+            # picture = row[16]
 
             for tag in tags.split("\n"):
                 if tag.strip() != "":
                     book.tags.append(tag)
-            for i in range(0, random.randint(0, 9)):
-                if picture is not None:
-                    encode_str = base64.b64encode(picture).decode("utf-8")
-                    book.pictures.append(encode_str)
-            books.append(book)
+            # for i in range(0, random.randint(0, 9)):
+            #     if picture is not None:
+            #         encode_str = base64.b64encode(picture).decode("utf-8")
+            #         book.pictures.append(encode_str)
+            # books.append(book)
             # print(tags.decode('utf-8'))
 
             # print(book.tags, len(book.picture))

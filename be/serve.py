@@ -13,8 +13,6 @@ bp_shutdown = Blueprint("shutdown", __name__)
 
 def shutdown_server():
     func = request.environ.get("werkzeug.server.shutdown")
-    if func is None:
-        raise RuntimeError("Not running with the Werkzeug Server")
     func()
 
 
@@ -28,8 +26,7 @@ def be_run():
     this_path = os.path.dirname(__file__)
     parent_path = os.path.dirname(this_path)
     log_file = os.path.join(parent_path, "app.log")
-    init_database(parent_path)
-
+    init_database()
     logging.basicConfig(filename=log_file, level=logging.ERROR)
     handler = logging.StreamHandler()
     formatter = logging.Formatter(
